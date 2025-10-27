@@ -20,6 +20,7 @@ df = df.drop(columns=[
 
 # Define target
 y = df['readmission_binary']
+odds_ratio_data = []
 
 # Loop through each feature
 for col in df.columns:
@@ -51,6 +52,9 @@ for col in df.columns:
 
     # Print odds ratios
     odds_ratios = np.exp(model.coef_[0])
-    print(f"\nFeature: {col}")
     for name, or_val in zip(feature_names, odds_ratios):
-        print(f"  {name}: Odds Ratio = {or_val:.2f}")
+        odds_ratio_data.append({'Feature': col, 'Encoded Feature': name, 'Odds Ratio': round(or_val, 2)})
+
+# Save to CSV
+odds_ratio_df = pd.DataFrame(odds_ratio_data)
+odds_ratio_df.to_csv('/Users/shraddhap/Desktop/odds_ratios.csv', index=False)
